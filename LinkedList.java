@@ -32,7 +32,7 @@ class node {
 
 public class LinkedList {
     node n = new node();
-    Scanner sc = new Scanner(System.in);
+     static Scanner sc = new Scanner(System.in);
     static node head = null;
 
     void add(int x) {

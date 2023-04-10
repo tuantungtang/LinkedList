@@ -1,125 +1,88 @@
-import java.rmi.server.ExportException;
 import java.util.Scanner;
 
 public class Queue {
     Scanner sc = new Scanner(System.in);
+    static node head, tail;
 
-    node head = null;
+    Queue() {
+        head = null;
+        tail = null;
+    }
 
-    //add x, return true if success, else throw exception
+    ;
+
     void add(int x) {
         if (head == null) {
             head = new node(x);
+            tail = head;
         } else {
-            node temp = head;
-            while (temp.next != null) {
-                temp = temp.next;
-            }
-            temp.next = new node(x);
+            tail.next = new node(x);
+            tail = tail.next;
         }
     }
 
-    //add x, return true if success, else return false
-    void offer() {
-
+    boolean isEmpty() {
+        if (head == null) {
+            return true;
+        }
+        return false;
     }
 
-    //return 1st num, throw exception if null
-    void element() {
-        try {
-            System.out.println("so dau tien: ");
-            System.out.println(head.data);
-        } catch (Exception e) {
-            System.out.println("null");
+    int count(node node) {
+        if (node != null) {
+            return count(node.next) + 1;
         }
+        return 0;
     }
 
     void input() {
-        boolean a = true;
-        while (a) {
+        while (true) {
             System.out.println("nhap x: ");
             int x = sc.nextInt();
             if (x == 0) {
                 return;
             }
-            if (head == null) {
-                head = new node(x, head);
-            } else {
-                node temp = head;
-                while (temp.next != null) {
-                    temp = temp.next;
-                }
-                temp.next = new node(x);
+            add(x);
+        }
+    }
+
+    int countodd(node node) {
+        if (node != null) {
+            if (node.data % 2 == 0) {
+                return countodd(node.next);
             }
+            return countodd(node.next) + 1;
         }
+        return 0;
     }
 
-    //return 1st num, return false if null
-    void peek() {
-
-    }
-
-    //return+remove head, throw exception if null
-    void remove() {
-        try {
-            System.out.println("so dau tien: " + head.data);
-            head = head.next;
-        } catch (Exception e) {
-            System.out.println("fail!");
-
+    int counteven(node node) {
+        if (node != null) {
+            if (node.data % 2 != 0) {
+                return counteven(node.next);
+            }
+            return counteven(node.next) + 1;
         }
+        return 0;
     }
 
-    //return+remove head, return false if cant
-    void poll() {
 
-    }
 
     void output() {
-        try {
-            node temp = head;
-            while (temp != null) {
-                System.out.print(temp);
-                temp = temp.next;
-            }
-            System.out.println("null");
-        } catch (Exception e) {
-            System.out.println("null");
+        node temp = head;
+        while (temp != null) {
+            System.out.print(temp);
+            temp = temp.next;
         }
-    }
-
-    void insert() {
-        try {
-            node temp = head;
-            System.out.println("vi tri muon them vao");
-            int x = sc.nextInt();
-            if (x == 0) {
-                System.out.println("nhap so muon them vao: ");
-                head = new node(sc.nextInt(), head);
-            }
-            while (temp.next != null) {
-                x -= 1;
-                if (x == 0) {
-                    System.out.println("nhap so muon them: ");
-                    temp.next = new node(sc.nextInt(), temp.next);
-                    return;
-                }
-                temp = temp.next;
-            }
-        } catch (Exception e) {
-            System.out.println("fail!");
-        }
-    }
-
-    void delete() {
-
+        System.out.println("null");
     }
 
     public static void main(String[] args) {
         Queue queue = new Queue();
         queue.input();
         queue.output();
-        queue.insert();
-        queue.output();
+        System.out.println("so phan tu: " + queue.count(head));
+        System.out.println("so phan tu le: " + queue.countodd(head));
+        System.out.println("so phan tu chan: " + queue.counteven(head));
     }
 }
